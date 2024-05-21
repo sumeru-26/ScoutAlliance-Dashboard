@@ -1,5 +1,5 @@
 <template>
   <div>
-    <NuxtWelcome />
+    <h1>ScoutAlliance Dashboard</h1>
   </div>
 </template>
