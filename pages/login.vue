@@ -2,8 +2,14 @@
 
     import { Input } from '@/components/ui/input';
     import { Button } from '@/components/ui/button'
+    import { useToast } from '@/components/ui/toast/use-toast'
+    import { Toaster } from '@/components/ui/toast'
+
+    import { LoaderCircle } from 'lucide-vue-next';
 
     const router = useRouter()
+
+    const { toast } = useToast()
 
     const userTemp = defineModel('userTemp')
     const keyTemp = defineModel('keyTemp')
@@ -26,9 +32,10 @@
         // }
     )
 
-    const loginFailed = ref(false)
+    const loading = ref(false)
 
     async function submit() {
+        loading.value = true
          try {
             const passed = await $fetch('/api/ping-api', {
                 method: 'GET',
@@ -49,11 +56,17 @@
         } catch {
             handleLoginFailed()
         }
+        loading.value = false
     }
 
     function handleLoginFailed() {
         console.log('login failed')
-        loginFailed.value = true
+        toast({
+            description: 'Login failed: incorrect Team Number or Key',
+            //variant: 'destructive',
+            // for some weird reason, the red toast does not work
+        })
+        
     }
 
 </script>
@@ -87,6 +100,10 @@
                     Sign in
                 </Button>
             </CardFooter>
+            <div class="flex justify-center mb-5">
+                <LoaderCircle v-if="loading" class="animate-spin" />
+            </div>                    
         </Card>
     </div>
+    <Toaster />
 </template>
