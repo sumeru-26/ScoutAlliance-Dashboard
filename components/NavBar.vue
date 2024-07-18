@@ -1,9 +1,43 @@
+<script setup>
+
+    import {
+        NavigationMenu,
+        NavigationMenuContent,
+        NavigationMenuItem,
+        NavigationMenuLink,
+        NavigationMenuList,
+        NavigationMenuTrigger,
+        navigationMenuTriggerStyle,
+    } from '@/components/ui/navigation-menu'
+
+
+
+</script>
+
 <template>
-    <nav>
-        <ul>
-            <li><NuxtLink to="/">Home</NuxtLink></li>
-            <li><NuxtLink to="/login">Login</NuxtLink></li>
-            <li><NuxtLink to="/entries">Entries</NuxtLink></li>
-        </ul>
-    </nav>
+    <NavigationMenu>
+        <NavigationMenuList>
+            <NavigationMenuItem>
+                <NuxtLink to="/">
+                    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
+                        Home
+                    </NavigationMenuLink>
+                </NuxtLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+                <NuxtLink to="/login">
+                    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
+                        Login
+                    </NavigationMenuLink>
+                </NuxtLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+                <NuxtLink to="/entries">
+                    <NavigationMenuLink :class="navigationMenuTriggerStyle()">
+                        Entries
+                    </NavigationMenuLink>
+                </NuxtLink>
+            </NavigationMenuItem>
+        </NavigationMenuList>
+    </NavigationMenu>
 </template>

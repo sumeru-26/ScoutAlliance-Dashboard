@@ -1,9 +1,13 @@
 <script setup>
 
+    import { Input } from '@/components/ui/input';
+    import { Button } from '@/components/ui/button'
+
     const router = useRouter()
 
     const userTemp = defineModel('userTemp')
     const keyTemp = defineModel('keyTemp')
+    const test = defineModel('test')
 
     const user = useCookie(
         'user',
@@ -57,15 +61,32 @@
 <template>
     <header>
         <NavBar />
-        <h1>Login</h1>
     </header>
-    <form>
-        <label for="user">Team: </label>
-        <input id="user" v-model="userTemp" type="text" aria-placeholder="Team Number">
-        <label for="key">Key: </label>
-        <input id="key" v-model="keyTemp" type="password" aria-placeholder="API Key">
-        <button @click.stop.prevent="submit">Sign in</button>
-    </form>
-    <p v-if="loginFailed">login failed</p>
-
+    <div class="flex flex-row min-h-screen justify-center items-center">
+        <Card class="w-full max-w-sm">
+            <CardHeader>
+                <CardTitle class="text-2xl">
+                    Login
+                </CardTitle>
+                <CardDescription>
+                    Enter your email below to login to your account.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="grid gap-4">
+                <div class="grid gap-2">
+                    <Label for="team">Team</Label>
+                    <Input id="team" type="text" placeholder="Team Number" required v-model="userTemp" />
+                </div>
+                <div class="grid gap-2">
+                    <Label for="key">Key</Label>
+                    <Input id="key" type="password" required v-model="keyTemp" />
+                </div>
+            </CardContent>
+            <CardFooter>
+                <Button @click.stop.prevent="submit" class="w-full">
+                    Sign in
+                </Button>
+            </CardFooter>
+        </Card>
+    </div>
 </template>

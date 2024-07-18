@@ -1,7 +1,8 @@
 <template>
     <header>
         <NavBar />
-        <h1>Entries</h1>
     </header>
-    <Data />
+    <div class="my-5">
+        <Data />
+    </div>
 </template>
