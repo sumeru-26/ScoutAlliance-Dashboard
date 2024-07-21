@@ -6,7 +6,13 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  css: ['~/assets/css/index.css'],
+  css: [
+    '~/assets/css/index.css',
+    '~/assets/css/json-viewer.css',
+  ],
+  plugins: [
+    '~/plugins/vue-json-pretty'
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
