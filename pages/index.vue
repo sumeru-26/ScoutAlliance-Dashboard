@@ -14,7 +14,9 @@
     <header>
         <NavBar />
     </header>
-
+    <h1 class="mx-5 text-lg font-semibold md:text-2xl">
+        Home
+    </h1>
     <div class="flex flex-row min-h-screen justify-center items-center">
         <p class="text-sm text-muted-foreground text-right">
             More features coming!
