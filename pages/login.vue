@@ -72,9 +72,6 @@
 </script>
 
 <template>
-    <header>
-        <NavBar />
-    </header>
     <div class="flex flex-row min-h-screen justify-center items-center">
         <Card class="w-full max-w-sm">
             <CardHeader>
@@ -82,7 +79,7 @@
                     Login
                 </CardTitle>
                 <CardDescription>
-                    Enter your email below to login to your account.
+                    Enter your team number and key below.
                 </CardDescription>
             </CardHeader>
             <CardContent class="grid gap-4">
