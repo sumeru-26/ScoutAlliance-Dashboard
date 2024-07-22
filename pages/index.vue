@@ -5,9 +5,7 @@
     definePageMeta({
         middleware: 'auth'
     })
-
-    const user = useCookie('user')
-    const key = useCookie('key')
+    
 </script>
 
 <template>

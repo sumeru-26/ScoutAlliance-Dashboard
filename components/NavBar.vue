@@ -21,6 +21,8 @@
 
     import { Bot } from 'lucide-vue-next'
 
+    const router = useRouter()
+
     const loaded = ref(false)
     const team = useCookie('user')
 
@@ -32,6 +34,13 @@
     //const iconBgClass = `bg-[#277139] rounded-full`
     console.log(iconBgClass)
     loaded.value = true
+
+    function logout() {
+        const keyCookie = useCookie('key')
+        team.value = null
+        keyCookie.value = null
+        router.push({ path: "/" })
+    }
     
 
 </script>
@@ -45,13 +54,6 @@
                     <NuxtLink to="/">
                         <NavigationMenuLink :class="navigationMenuTriggerStyle()">
                             Home
-                        </NavigationMenuLink>
-                    </NuxtLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NuxtLink to="/login">
-                        <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-                            Login
                         </NavigationMenuLink>
                     </NuxtLink>
                 </NavigationMenuItem>
@@ -74,8 +76,12 @@
                 <DropdownMenuContent>
                     <DropdownMenuLabel>{{ team }}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Account</DropdownMenuItem>
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <span>Account</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <span @click.stop.prevent="logout">Logout</span>
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

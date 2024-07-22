@@ -1,3 +1,11 @@
+<script>
+
+    definePageMeta({
+        middleware: 'auth'
+    })
+
+</script>
+
 <template>
     <header class="sticky top-0 z-10">
         <NavBar />
