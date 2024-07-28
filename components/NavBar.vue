@@ -39,7 +39,7 @@
         const keyCookie = useCookie('key')
         team.value = null
         keyCookie.value = null
-        router.push({ path: "/" })
+        router.push({ path: "/login" })
     }
     
 
