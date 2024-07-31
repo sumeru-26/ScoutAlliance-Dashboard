@@ -26,7 +26,7 @@
     const loaded = ref(false)
     const team = useCookie('user')
 
-    const { data: rawData } = await useFetch('/api/team_colors')
+    const { data: rawData } = await useFetch('/api/team-colors')
     const teamColors = rawData._rawValue
     const primaryTeamColor = teamColors.primaryHex
     const secondaryTeamColor = teamColors.secondaryHex
