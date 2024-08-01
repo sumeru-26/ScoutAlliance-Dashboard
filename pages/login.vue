@@ -13,9 +13,8 @@
 
     const { toast } = useToast()
 
-    const user = defineModel('userTemp')
-    const key = defineModel('keyTemp')
-    const test = defineModel('test')
+    const user = ref('')
+    const key = ref('')
 
     const userCookie = useCookie(
         'user',
@@ -36,29 +35,40 @@
 
     const loading = ref(false)
 
+    // async function submit() {
+    //     loading.value = true
+    //      try {
+    //         const passed = await $fetch('/api/verify', {
+    //             method: 'GET',
+    //             query: {
+    //                 user: user.value,
+    //                 key: key.value
+    //             }
+    //         })
+    //         if (passed == true) {
+    //             //console.log('navigating')
+    //             userCookie.value = user.value
+    //             keyCookie.value = key.value
+    //             router.push({ path: "/" })
+    //         }
+    //         else {
+    //             handleLoginFailed()
+    //         }
+    //     } catch {
+    //         handleLoginFailed()
+    //     }
+    //     loading.value = false
+    // }
+
     async function submit() {
-        loading.value = true
-         try {
-            const passed = await $fetch('/api/verify', {
-                method: 'GET',
-                query: {
-                    user: user.value,
-                    key: key.value
-                }
-            })
-            if (passed == true) {
-                //console.log('navigating')
-                userCookie.value = user.value
-                keyCookie.value = key.value
-                router.push({ path: "/" })
-            }
-            else {
-                handleLoginFailed()
-            }
-        } catch {
+        try {
+             
+            await signIn({ user: user.value, key: key.value }, { callbackUrl: '/' })
+        }
+        catch {
             handleLoginFailed()
         }
-        loading.value = false
+    
     }
 
     function handleLoginFailed() {
@@ -95,7 +105,7 @@
                 </div>
             </CardContent>
             <CardFooter>
-                <Button @click.stop.prevent="signIn({ user, key })" class="w-full">
+                <Button @click.stop.prevent="signIn({ user, key }, { callbackUrl: '/' })" class="w-full">
                     Sign in
                 </Button>
             </CardFooter>
