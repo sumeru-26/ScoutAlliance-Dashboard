@@ -7,15 +7,17 @@
 
     import { LoaderCircle } from 'lucide-vue-next';
 
+    const { signIn } = useAuth()
+
     const router = useRouter()
 
     const { toast } = useToast()
 
-    const userTemp = defineModel('userTemp')
-    const keyTemp = defineModel('keyTemp')
+    const user = defineModel('userTemp')
+    const key = defineModel('keyTemp')
     const test = defineModel('test')
 
-    const user = useCookie(
+    const userCookie = useCookie(
         'user',
         // {
         //     httpOnly: true,
@@ -23,7 +25,7 @@
         //     sameSite: true
         // }
     )
-    const key = useCookie(
+    const keyCookie = useCookie(
         'key',
         // {
         //     httpOnly: true,
@@ -40,14 +42,14 @@
             const passed = await $fetch('/api/verify', {
                 method: 'GET',
                 query: {
-                    user: userTemp.value,
-                    key: keyTemp.value
+                    user: user.value,
+                    key: key.value
                 }
             })
             if (passed == true) {
                 //console.log('navigating')
-                user.value = userTemp.value
-                key.value = keyTemp.value
+                userCookie.value = user.value
+                keyCookie.value = key.value
                 router.push({ path: "/" })
             }
             else {
@@ -85,15 +87,15 @@
             <CardContent class="grid gap-4">
                 <div class="grid gap-2">
                     <Label for="team">Team</Label>
-                    <Input id="team" type="text" placeholder="Team Number" required v-model="userTemp" />
+                    <Input id="team" type="text" placeholder="Team Number" required v-model="user" />
                 </div>
                 <div class="grid gap-2">
                     <Label for="key">Key</Label>
-                    <Input id="key" type="password" required v-model="keyTemp" />
+                    <Input id="key" type="password" required v-model="key" />
                 </div>
             </CardContent>
             <CardFooter>
-                <Button @click.stop.prevent="submit" class="w-full">
+                <Button @click.stop.prevent="signIn({ user, key })" class="w-full">
                     Sign in
                 </Button>
             </CardFooter>

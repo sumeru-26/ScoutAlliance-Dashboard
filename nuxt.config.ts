@@ -24,7 +24,32 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
+    '@sidebase/nuxt-auth',
   ],
+  auth: {
+    baseURL: '/api/auth',
+    provider: {
+      type: 'local',
+      endpoints: {
+        signIn: { path: '/login', method: 'post' },
+        signOut: { path: '/logout', method: 'post' },
+        getSession: { path: '/session', method: 'get' },
+        signUp: false
+      },
+      token: {
+        signInResponseTokenPointer: '/token',
+        type: 'Bearer',
+        cookieName: 'auth.token',
+        headerName: 'Authorization',
+        maxAgeInSeconds: 1800,
+        sameSiteAttribute: 'lax',
+        cookieDomain: ''
+      },
+      pages: {
+        login: '/login'
+      }
+    }
+  },
   shadcn: {
     /**
      * Prefix for all the imported component
