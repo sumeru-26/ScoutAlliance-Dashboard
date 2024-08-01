@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
+    mongodbUri: '', // will get overriden by .env file
     public: {
       apiBase: 'https://api.scoutalliance.live'
     },

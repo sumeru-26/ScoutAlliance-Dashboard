@@ -37,7 +37,7 @@
     async function submit() {
         loading.value = true
          try {
-            const passed = await $fetch('/api/ping-api', {
+            const passed = await $fetch('/api/verify', {
                 method: 'GET',
                 query: {
                     user: userTemp.value,
