@@ -16,49 +16,7 @@
     const user = ref('')
     const key = ref('')
 
-    const userCookie = useCookie(
-        'user',
-        // {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: true
-        // }
-    )
-    const keyCookie = useCookie(
-        'key',
-        // {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: true
-        // }
-    )
-
     const loading = ref(false)
-
-    // async function submit() {
-    //     loading.value = true
-    //      try {
-    //         const passed = await $fetch('/api/verify', {
-    //             method: 'GET',
-    //             query: {
-    //                 user: user.value,
-    //                 key: key.value
-    //             }
-    //         })
-    //         if (passed == true) {
-    //             //console.log('navigating')
-    //             userCookie.value = user.value
-    //             keyCookie.value = key.value
-    //             router.push({ path: "/" })
-    //         }
-    //         else {
-    //             handleLoginFailed()
-    //         }
-    //     } catch {
-    //         handleLoginFailed()
-    //     }
-    //     loading.value = false
-    // }
 
     async function submit() {
         try {
