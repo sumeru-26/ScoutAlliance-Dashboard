@@ -1,6 +1,8 @@
 import { defineEventHandler, H3Event, parseCookies } from 'h3'
 
 export default defineEventHandler(async (event: H3Event) => {
+    // TODO: update to use new auth method
+    // if possible, set it up as a util
     const cookies = parseCookies(event)
     const team = cookies?.user
     return fetch("https://api.frc-colors.com/v1/team/" + team)

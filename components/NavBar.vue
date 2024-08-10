@@ -21,10 +21,9 @@
 
     import { Bot } from 'lucide-vue-next'
 
-    const router = useRouter()
+    const { signOut } = useAuth()
 
     const loaded = ref(false)
-    const team = useCookie('user')
 
     const { data: rawData } = await useFetch('/api/team-colors')
     const teamColors = rawData._rawValue
@@ -35,10 +34,9 @@
     loaded.value = true
 
     function logout() {
-        const keyCookie = useCookie('key')
-        team.value = null
-        keyCookie.value = null
-        router.push({ path: "/login" })
+        // TODO: finish logout
+        signOut({ callbackUrl: '/login' })
+        
     }
     
 
