@@ -4,9 +4,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongodbUri: '', // will get overriden by .env file
     jwtSecretKey: '',
-    public: {
-      apiBase: 'https://api.scoutalliance.live'
-    },
+    // currently not being used
+    // public: {
+    //   apiBase: 'https://api.scoutalliance.live'
+    // },
   },
   devtools: { enabled: true },
   css: [
