@@ -32,7 +32,6 @@
     const secondaryTeamColor = teamColors.secondaryHex
     const iconBgClass = `rounded-full my-5 mr-5 bg-[${secondaryTeamColor}]`
     //const iconBgClass = `bg-[#277139] rounded-full`
-    console.log(iconBgClass)
     loaded.value = true
 
     function logout() {

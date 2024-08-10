@@ -72,7 +72,6 @@
     }
 
     function handleLoginFailed() {
-        console.log('login failed')
         toast({
             description: 'Login failed: incorrect Team Number or Key',
             //variant: 'destructive',
