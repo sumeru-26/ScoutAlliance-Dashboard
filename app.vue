@@ -12,6 +12,7 @@
 </script>
 
 <template>
+  <Toaster />
   <NuxtLoadingIndicator color="#fafafa" />
   <NuxtLayout>
     <NuxtPage />
