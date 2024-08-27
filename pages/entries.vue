@@ -2,7 +2,7 @@
 
     import { useToast } from '@/components/ui/toast/use-toast'
 
-    import { Plus, X } from 'lucide-vue-next';
+    import { Plus, X, LoaderCircle, Frown } from 'lucide-vue-next';
 
     definePageMeta({
         middleware: 'auth'
@@ -15,12 +15,20 @@
     const botQuery = ref('')
     const dataQueries = ref([{field: '', value: '', index: 0}])
 
-    const { data: rawEntries, error: err } = await useFetch('/api/data')
+    let entries = ref()
 
-    rawEntries.value.sort((a,b) => b.metadata.timestamp - a.metadata.timestamp)
+    const loading = ref(true)
+
+    const { status, data: rawEntries, error: err } = await useLazyFetch('/api/data')
+
+    watch(status, (newStatus, oldStatus) => {
+        if (newStatus === 'success') {
+            rawEntries.value.sort((a,b) => b.metadata.timestamp - a.metadata.timestamp)
+            entries.value = rawEntries.value
+            loading.value = false
+        }
+    })
     
-    const entries = ref(rawEntries.value)
-
     function submitQuery() {
 
         entries.value = rawEntries.value.filter((entry) => queryFilter(entry))
@@ -113,9 +121,12 @@
     <h1 class="mx-5 text-lg font-semibold md:text-2xl">
         Entries
     </h1>
-    <div class="m-5 border border-border rounded-lg">
+    <div v-if="loading" class="flex h-32 items-center justify-center mb-5">
+        <LoaderCircle v-if="loading" class="animate-spin" />
+    </div>
+    <div v-else class="m-5 border border-border rounded-lg">
         <div class="m-2 grid grid-cols-3 gap-2">
-            <Input type="text" placeholder="Event ( use TBA event key, e.g. &quot;2024cmptx&quot; )" v-model="eventQuery" />
+            <Input type="text" placeholder="Event (use TBA event key, e.g. &quot;2024cmptx&quot;)" v-model="eventQuery" />
             <Input type="text" placeholder="Match #" v-model="matchQuery" />
             <Input type="text" placeholder="Bot (Team #)" v-model="botQuery" />
             <div class="col-span-2">
@@ -138,8 +149,14 @@
             </div>
             <Button @click.stop.prevent="submitQuery()" class="mb-2 h-auto">Submit</Button>
         </div>
-    </div>
-    <div class="my-5">
-        <Data :entries="entries" />
+        <div v-if="entries.length > 0" class="my-5">
+            <Data :entries="entries" />
+        </div>
+        <div v-else class="flex flex-row h-32 justify-center items-center">
+            <p class="text-sm text-muted-foreground text-right">
+                No results
+            </p>
+            <Frown class="h-4 w-4 text-muted-foreground flex justify-center mx-1" />
+        </div>
     </div>
 </template>
