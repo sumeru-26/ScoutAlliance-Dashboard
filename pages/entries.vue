@@ -121,10 +121,7 @@
     <h1 class="mx-5 text-lg font-semibold md:text-2xl">
         Entries
     </h1>
-    <div v-if="loading" class="flex h-32 items-center justify-center mb-5">
-        <LoaderCircle v-if="loading" class="animate-spin" />
-    </div>
-    <div v-else class="m-5 border border-border rounded-lg">
+    <div class="m-5 border border-border rounded-lg">
         <div class="m-2 grid grid-cols-3 gap-2">
             <Input type="text" placeholder="Event (use TBA event key, e.g. &quot;2024cmptx&quot;)" v-model="eventQuery" />
             <Input type="text" placeholder="Match #" v-model="matchQuery" />
@@ -147,9 +144,12 @@
                     </div>
                 </ul>
             </div>
-            <Button @click.stop.prevent="submitQuery()" class="mb-2 h-auto">Submit</Button>
+            <Button @click.stop.prevent="submitQuery()" class="mb-2">Submit</Button>
         </div>
-        <div v-if="entries.length > 0" class="my-5">
+        <div v-if="loading" class="flex h-32 items-center justify-center mb-5">
+            <LoaderCircle v-if="loading" class="animate-spin" />
+        </div>
+        <div v-else-if="entries.length > 0" class="my-5">
             <Data :entries="entries" />
         </div>
         <div v-else class="flex flex-row h-32 justify-center items-center">
