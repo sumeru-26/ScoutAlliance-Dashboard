@@ -122,7 +122,7 @@
         Entries
     </h1>
     <div class="m-5 border border-border rounded-lg">
-        <div class="m-2 grid grid-cols-3 gap-2">
+        <div class="m-5 grid grid-cols-3 gap-2">
             <Input type="text" placeholder="Event (use TBA event key, e.g. &quot;2024cmptx&quot;)" v-model="eventQuery" />
             <Input type="text" placeholder="Match #" v-model="matchQuery" />
             <Input type="text" placeholder="Bot (Team #)" v-model="botQuery" />
