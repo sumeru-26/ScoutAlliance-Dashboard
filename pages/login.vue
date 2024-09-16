@@ -7,6 +7,10 @@
 
     import { LoaderCircle } from 'lucide-vue-next';
 
+    useSeoMeta({
+        title: 'Login'
+    })
+
     const { signIn } = useAuth()
 
     const router = useRouter()

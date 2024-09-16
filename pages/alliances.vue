@@ -2,6 +2,14 @@
 
     import { LoaderCircle, Plus, Check, X } from 'lucide-vue-next';
 
+    useSeoMeta({
+        title: 'Alliances'
+    })
+
+    definePageMeta({
+        middleware: 'auth'
+    })
+
     const loadingInvites = ref(true)
     const loadingAlliances = ref(true)
 

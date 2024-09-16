@@ -2,6 +2,10 @@
 
     import { Hammer } from 'lucide-vue-next'
 
+    useSeoMeta({
+        title: 'Dashboard'
+    })
+
     definePageMeta({
         middleware: 'auth'
     })

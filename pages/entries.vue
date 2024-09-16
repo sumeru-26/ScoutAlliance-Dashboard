@@ -4,6 +4,10 @@
 
     import { Plus, X, LoaderCircle, Frown } from 'lucide-vue-next';
 
+    useSeoMeta({
+        title: 'Entries'
+    })
+
     definePageMeta({
         middleware: 'auth'
     })
