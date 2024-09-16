@@ -25,3 +25,6 @@ logs
 
 # Project IDX dev settings
 .idx
+
+# Editor settings
+.vscode
