@@ -49,6 +49,13 @@
                         </NavigationMenuLink>
                     </NuxtLink>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NuxtLink to="/alliances">
+                        <NavigationMenuLink :class="navigationMenuTriggerStyle()">
+                            Alliances
+                        </NavigationMenuLink>
+                    </NuxtLink>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
         <div class="w-full flex justify-end">

@@ -8,7 +8,6 @@ export default defineEventHandler(async (event: H3Event) => {
 
     const query = getQuery(event)
     const alliance = query.alliance
-    const target = Number(query.target)
     
     const col = dbClient.db('dashboard').collection('alliance-invites')
     const targetInvite = await col.findOne({ 'team': team }, { projection: { _id: 0 } })
@@ -17,7 +16,6 @@ export default defineEventHandler(async (event: H3Event) => {
             invites:
                 {
                     alliance: alliance,
-                    team: target
                 }
         }})
     }
