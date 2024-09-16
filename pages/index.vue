@@ -12,7 +12,7 @@
     <header>
         <NavBar />
     </header>
-    <h1 class="mx-5 text-lg font-semibold md:text-2xl">
+    <h1 class="mx-5 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         Home
     </h1>
     <div class="flex flex-row min-h-screen justify-center items-center">
