@@ -11,6 +11,13 @@
         title: 'Login'
     })
 
+    definePageMeta({
+        auth: {
+            unauthenticatedOnly: true,
+            navigateAuthenticatedTo: '/'
+        }
+    })
+
     const { signIn } = useAuth()
 
     const router = useRouter()
@@ -23,21 +30,20 @@
     const loading = ref(false)
 
     async function submit() {
+        
         try {
-             
             await signIn({ user: user.value, key: key.value }, { callbackUrl: '/' })
-        }
-        catch {
+        } catch (e) {
             handleLoginFailed()
         }
+        
     
     }
 
     function handleLoginFailed() {
         toast({
             description: 'Login failed: incorrect Team Number or Key',
-            //variant: 'destructive',
-            // for some weird reason, the red toast does not work
+            variant: 'destructive'
         })
         
     }
@@ -66,7 +72,7 @@
                 </div>
             </CardContent>
             <CardFooter>
-                <Button @click.stop.prevent="signIn({ user, key }, { callbackUrl: '/' })" class="w-full">
+                <Button @click.stop.prevent="submit()" class="w-full">
                     Sign in
                 </Button>
             </CardFooter>
