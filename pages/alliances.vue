@@ -1,6 +1,7 @@
 <script setup>
 
-    import { LoaderCircle, Plus, Check, X } from 'lucide-vue-next';
+    import { LoaderCircle, Plus, Check, X, RefreshCcw } from 'lucide-vue-next';
+    import { useToast } from '@/components/ui/toast/use-toast'
 
     useSeoMeta({
         title: 'Alliances'
@@ -10,10 +11,14 @@
         middleware: 'auth'
     })
 
+    const { toast } = useToast()
+
     const loadingInvites = ref(true)
     const loadingAlliances = ref(true)
 
     const invitedTeam = ref()
+    const newAllianceName = ref()
+    const newAllianceEvent = ref()
 
     const { status: inviteLoadStatus, data: invites, error: inviteLoadErr, refresh: refreshInvites } = await useLazyFetch('/api/get-invites')
     const { status: allianceLoadStatus, data: alliances, error: allianceLoadErr, refresh: refreshAlliances } = await useLazyFetch('/api/get-alliances')
@@ -73,6 +78,24 @@
         await refreshAlliances()
     }
 
+    async function createAlliance() {
+        const re = await $fetch('/api/create-alliance', {
+            query: {
+                name: newAllianceName.value,
+                event: newAllianceEvent.value
+            }
+        })
+        if (re === false) {
+            toast({
+                description: `There already exists an alliance for event "${newAllianceEvent.value}".`,
+                variant: 'destructive'
+            })
+        }
+        newAllianceName.value = ''
+        newAllianceEvent.value = ''
+        await refreshAlliances()
+    }
+
 </script>
 
 <template>
@@ -84,7 +107,38 @@
     </h1>
     <div class="grid grid-cols-2">
         <div class="m-5 border border-border rounded-lg h-min">
-            <h3 class="mt-5 ml-5 scroll-m-20 text-2xl font-semibold tracking-tight">My Alliances</h3>
+            <div class="mt-5 mx-5 grid grid-cols-2">
+                <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">My Alliances</h3>
+                <div class="flex justify-end space-x-2">
+                    <Dialog>
+                        <DialogTrigger>
+                            <Button variant="outline" size="icon">
+                                <Plus class="w-4 h-4" />
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Create Alliance</DialogTitle>
+                                <DialogDescription>
+                                    Create a new scouting alliance for a specific event. We recommend using TheBlueAlliance event codes for events.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <Input type="text" placeholder="Alliance Name" v-model="newAllianceName" />
+                            <Input type="text" placeholder="Event" v-model="newAllianceEvent" />
+                            <DialogFooter>
+                                <DialogClose as-child>
+                                    <Button @click.stop.prevent="createAlliance()" type="button">
+                                        Create
+                                    </Button>
+                                </DialogClose>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    <Button @click.stop.prevent="refreshAlliances" variant="outline" size="icon">
+                        <RefreshCcw class="w-4 h-4" />
+                    </Button>
+                </div>
+            </div>
             <div v-if="loadingAlliances" class="flex h-32 items-center justify-center mb-5">
                 <LoaderCircle class="animate-spin" />
             </div>
@@ -162,7 +216,14 @@
             </div>
         </div>
         <div class="m-5 border border-border rounded-lg h-min">
-            <h3 class="mt-5 ml-5 scroll-m-20 text-2xl font-semibold tracking-tight">Invites</h3>
+            <div class="mt-5 mx-5 grid grid-cols-2">
+                <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Invites</h3>
+                <div class="flex justify-end">
+                    <Button @click.stop.prevent="refreshInvites" variant="outline" size="icon">
+                        <RefreshCcw class="w-4 h-4" />
+                    </Button>
+                </div>
+            </div>
             <div v-if="loadingInvites" class="flex h-32 items-center justify-center mb-5">
                 <LoaderCircle class="animate-spin" />
             </div>
