@@ -26,7 +26,7 @@
     watch (inviteLoadStatus, (newStatus, oldStatus) => {
         if (newStatus === 'success') {
             loadingInvites.value = false
-            console.log(invites.value)
+            // console.log(invites.value)
         } else if (newStatus === 'pending') {
             loadingInvites.value = true
         }
