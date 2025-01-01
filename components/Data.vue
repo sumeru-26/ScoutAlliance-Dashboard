@@ -1,9 +1,7 @@
 <script setup>
 
     import VueJsonPretty from 'vue-json-pretty';
-
-     const depth = ref(2)
-
+    
     const props = defineProps(['entries'])
 
 </script>
@@ -13,7 +11,6 @@
         <div class="m-2">
             <vue-json-pretty
                 :data="entry"
-                :deep="depth"
                 :highlight-selected-node="false"
                 :show-line="false"
                 :show-icon="true"
