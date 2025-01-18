@@ -18,9 +18,19 @@
         PaginationNext,
         PaginationPrev,
     } from '@/components/ui/pagination'
+    import {
+        Dialog,
+        DialogContent,
+        DialogDescription,
+        DialogFooter,
+        DialogHeader,
+        DialogTitle,
+        DialogTrigger,
+    } from '@/components/ui/dialog'
 
 
-    import { Plus, X, LoaderCircle, RefreshCcw, Frown, ChevronDown } from 'lucide-vue-next';
+
+    import { Plus, X, LoaderCircle, RefreshCcw, Frown, ChevronDown, Download } from 'lucide-vue-next';
 
     useSeoMeta({
         title: 'Entries'
@@ -66,8 +76,8 @@
             // console.log(re)
             entries.value = rawDBResults.value.entries().next().value[1].entries // praying ts works
             totalNumberOfEntries.value = rawDBResults.value.entries().next().value[1].metadata[0].numEntries
-            console.log(rawDBResults.value.entries().next().value[1])
-            console.log(totalNumberOfEntries.value)
+            // console.log(rawDBResults.value.entries().next().value[1])
+            // console.log(totalNumberOfEntries.value)
             loading.value = false
         }
     })
@@ -101,14 +111,23 @@
             }
             for (const q of dataQueries.value) {
                 if (q.field != '') {
-                    tempQuery.value[`data.${q.field}`] = q.value
+                    if (q.value != '') {
+                        if (!isNaN(q.value)) {
+                            tempQuery[`data.${q.field}`] = +q.value
+                        } else if (String(query.value).toLowerCase() == 'true' || String(query.value).toLowerCase() == 'false') {
+                            tempQuery[`data.${q.field}`] = (String(query.value).toLowerCase() === 'true')
+                        }
+                    } else {
+                        tempQuery[`data.${q.field}`] = q.value
+                    } 
                 }
             }
-        // console.log(query.value)
+        // console.log(tempQuery)
         query.value = tempQuery
     }
     
     function submitQuery() {
+        // console.log('query submitted')
         generateRequestQuery()
         refreshDataWrapper()
     }
@@ -169,27 +188,27 @@
     //     }
     // }
 
-    // function addDataQuery() {
-    //     dataQueries.value.push({field: '', value: '', index: dataQueries.value.length})
-    //     reorderDataQueries()
-    // }
+    function addDataQuery() {
+        dataQueries.value.push({field: '', value: '', index: dataQueries.value.length})
+        reorderDataQueries()
+    }
 
-    // function deleteDataQuery(index) {
-    //     if (dataQueries.value.length > 1) {
-    //         dataQueries.value.splice(index, 1)
-    //         reorderDataQueries()
-    //     } else {
-    //         dataQueries.value = [{field: '', value: '', index: 0}]
-    //     }
-    // }
+    function deleteDataQuery(index) {
+        if (dataQueries.value.length > 1) {
+            dataQueries.value.splice(index, 1)
+            reorderDataQueries()
+        } else {
+            dataQueries.value = [{field: '', value: '', index: 0}]
+        }
+    }
 
-    // function reorderDataQueries() {
-    //     var i = 0
-    //     for (var q of dataQueries.value) {
-    //         q.index = i
-    //         i++
-    //     }
-    // }
+    function reorderDataQueries() {
+        var i = 0
+        for (var q of dataQueries.value) {
+            q.index = i
+            i++
+        }
+    }
 
 </script>
 
@@ -201,11 +220,14 @@
         Entries
     </h1>
     <div class="m-5 border border-border rounded-lg">
-        <div class="m-5 grid grid-cols-4 gap-2">
-            <Input type="text" placeholder="Event (TBA Code)" v-model="eventQuery" />
-            <Input type="text" placeholder="Match #" v-model="matchQuery" />
-            <Input type="text" placeholder="Bot (Team #)" v-model="botQuery" />
-            <Input type="text" placeholder="Type" v-model="typeQuery" />
+        <div class="mx-5 mt-5 mb-2 flex gap-2">
+            <Input type="text" placeholder="Event (TBA Code)" v-model="eventQuery" class="grow" />
+            <Input type="text" placeholder="Match #" v-model="matchQuery" class="grow" />
+            <Input type="text" placeholder="Bot (Team #)" v-model="botQuery" class="grow" />
+            <Input type="text" placeholder="Type" v-model="typeQuery" class="grow" />
+            <DownloadEntriesDialog :query="query" />
+        </div>
+        <div class="mx-5 grid grid-cols-4 gap-2">
             <div class="col-span-2">
                 <ul v-for="query in dataQueries" :key="query">
                     <div class="mb-2 flex gap-2">

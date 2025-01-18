@@ -18,19 +18,30 @@ export default defineEventHandler(async (event: H3Event) => {
     // console.log(JSON.parse(String(query.dbQuery)))
     // console.log(JSON.parse(String(query.dbQuery)))
 
-    const pipeline = [
-        { $match: dbQuery },
-        { $sort: { "metadata.timestamp": -1 } },
-        { $facet: {
-            metadata: [ { $count: 'numEntries' } ],
-            entries: [
-                { $skip: (page - 1) * entriesPerPage },
-                { $limit: entriesPerPage },
-                { $unset: [ "_id" ] }
-            ]
-        }}
-        
-    ]
+    var pipeline;
+
+    if (isNaN(page)) {
+        pipeline = [
+            { $match: dbQuery },
+            { $sort: { "metadata.timestamp": -1 } },
+            { $unset: [ "_id" ] }
+        ]
+    } else {
+        pipeline = [
+            { $match: dbQuery },
+            { $sort: { "metadata.timestamp": -1 } },
+            { $facet: {
+                metadata: [ { $count: 'numEntries' } ],
+                entries: [
+                    { $skip: (page - 1) * entriesPerPage },
+                    { $limit: entriesPerPage },
+                    { $unset: [ "_id" ] }
+                ]
+            }}
+        ]
+    }    
+
+    
     
     const col = dbClient.db('entries').collection(`${team}`)
     const data = await col.aggregate(pipeline).toArray()
